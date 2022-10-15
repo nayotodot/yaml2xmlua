@@ -1,0 +1,55 @@
+InitCommand: "%function(c)dofile(GAMESTATE:GetCurrentSong():GetSongDir()..\"bundle.lua\")(c,c:GetXMLDir())end"
+children:
+  -
+    Type: ActorProxy
+    Name: SongBackground
+  -
+    Type: ActorFrame
+    Name: PlayField
+    children:
+    -
+      Type: ActorProxy
+      Name: NoteField
+    -
+      Type: ActorProxy
+      Name: NoteField
+    -
+      Type: ActorProxy
+      Name: Judgment
+    -
+      Type: ActorProxy
+      Name: Judgment
+    -
+      Type: ActorProxy
+      Name: Combo
+    -
+      Type: ActorProxy
+      Name: Combo
+  -
+    Type: ActorProxy
+    Name: NoteField
+  -
+    Type: ActorProxy
+    Name: NoteField
+  -
+    Type: ActorProxy
+    Name: Judgment
+  -
+    Type: ActorProxy
+    Name: Judgment
+  -
+    Type: ActorProxy
+    Name: Combo
+  -
+    Type: ActorProxy
+    Name: Combo
+  -
+    Type: ActorFrameTexture
+    Name: Buffer
+  -
+    Type: Quad
+    Name: ClearZBuffer
+    OnCommand: "clearzbuffer,1;zoom,0"
+  -
+    Type: Sprite
+    Name: Render

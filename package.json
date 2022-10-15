@@ -1,0 +1,24 @@
+{
+  "name": "yaml2xmlua",
+  "description": "Yaml to Xml-Lua converter",
+  "version": "0.1.0",
+  "main": "dist/main.js",
+  "scripts": {
+    "clean": "rimraf dist/",
+    "build": "tsc --build",
+    "watch": "tsc --watch",
+    "test": "npm run clean && npm run build && node test"
+  },
+  "author": "NAYOTO.",
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^4.8.4"
+  },
+  "dependencies": {
+    "@types/js-yaml": "^4.0.5",
+    "@types/node": "^18.11.0",
+    "@xmldom/xmldom": "^0.8.3",
+    "js-yaml": "^4.1.0",
+    "rimraf": "^3.0.2"
+  }
+}
