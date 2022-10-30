@@ -1,7 +1,6 @@
 import { DOMImplementation, XMLSerializer } from "@xmldom/xmldom";
 import * as yaml from "js-yaml";
 import * as fs from "node:fs";
-import * as path from "node:path";
 
 function CreateChildren( doc: XMLDocument, data: any ): HTMLUnknownElement
 {
@@ -50,7 +49,7 @@ export default function Load( filepath: string ): string
 	if( !fs.existsSync(filepath) )
 	{
 		console.error( `"${filepath}" is not found.` );
-		process.exit( 0 );
+		process.exit( 1 );
 	}
 	const data: string = fs.readFileSync( filepath, "utf8" );
 	const obj: any = yaml.load( data );
