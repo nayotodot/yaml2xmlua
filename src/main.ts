@@ -1,6 +1,8 @@
+import { error } from "node:console";
+import { existsSync, readFileSync } from "node:fs";
+import { exit } from "node:process";
+import { load as LoadYaml } from "js-yaml";
 import { DOMImplementation, XMLSerializer } from "@xmldom/xmldom";
-import * as yaml from "js-yaml";
-import * as fs from "node:fs";
 
 function CreateChildren( doc: XMLDocument, data: any ): HTMLUnknownElement
 {
@@ -44,15 +46,15 @@ function YamlToXml( data: any ): string
 	return XML.serializeToString( doc );
 }
 
-export default function Load( filepath: string ): string
+export function Load( filepath: string ): string
 {
-	if( !fs.existsSync(filepath) )
+	if( !existsSync(filepath) )
 	{
-		console.error( `"${filepath}" is not found.` );
-		process.exit( 1 );
+		error( `"${filepath}" is not found.` );
+		exit( 1 );
 	}
-	const data: string = fs.readFileSync( filepath, "utf8" );
-	const obj: any = yaml.load( data );
+	const data: string = readFileSync( filepath, "utf8" );
+	const obj: any = LoadYaml( data );
 	const xml: string = YamlToXml( obj );
 	return xml;
 }

@@ -1,13 +1,17 @@
 {
   "name": "yaml2xmlua",
   "description": "Yaml to Xml-Lua converter",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "main": "dist/main.js",
+  "bin": {
+    "y2xl": "bin/cli.js"
+  },
   "scripts": {
     "clean": "rimraf dist/",
     "build": "tsc --build",
     "watch": "tsc --watch",
-    "test": "npm run clean && npm run build && node test"
+    "rebuild": "npm run clean && npm run build",
+    "rewatch": "npm run clean && npm run watch"
   },
   "author": "NAYOTO.",
   "license": "MIT",
