@@ -5,10 +5,9 @@ import { watch } from "node:fs/promises";
 import { dirname, format, parse, ParsedPath, relative, resolve } from "node:path";
 import process from "node:process";
 import { Load } from "./main";
+import { PACKAGE_NAME, PACKAGE_VERSION } from "./Package";
 import { GetDirListing, IsDirectory, IsYamlFile, ResolveAbsolutePath } from "./Utils";
 
-const PACKAGE_NAME: string = require("../package.json")?.name;
-const PACKAGE_VERSION: string = require("../package.json")?.version;
 const HELP_TEXT: string = `
 usage: ${PACKAGE_NAME} [options]
 
