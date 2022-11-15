@@ -1,6 +1,6 @@
 import { cwd } from "process";
 import { Dirent, Stats, existsSync, readdirSync, statSync } from "node:fs";
-import { dirname, extname, isAbsolute, resolve } from "node:path";
+import { ParsedPath, dirname, extname, format, isAbsolute, parse, resolve } from "node:path";
 import { assert } from "./Error";
 
 export function FileExists( path: string ): boolean
@@ -69,4 +69,12 @@ export function ResolveAbsolutePath( path: string ): string
 		path = resolve( cwd(), path );
 	}
 	return path;
+}
+
+export function Rename( path: string ): string
+{
+	const fmt: ParsedPath = parse( path );
+	fmt.ext = ".xml";
+	fmt.base = "";
+	return format( fmt );
 }

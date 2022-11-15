@@ -1,8 +1,11 @@
-import { error } from "node:console";
-import { existsSync, readFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { watch } from "node:fs/promises";
+import { ParsedPath, dirname, parse, relative, resolve } from "node:path";
 import { exit } from "node:process";
 import { load as LoadYaml } from "js-yaml";
 import { DOMImplementation, XMLSerializer } from "@xmldom/xmldom";
+import { error } from "./Error";
+import { GetDirListing, IsDirectory, IsYamlFile, Rename } from "./Utils";
 
 function CreateChildren( doc: XMLDocument, data: any ): HTMLUnknownElement
 {
@@ -57,4 +60,53 @@ export function Load( filepath: string ): string
 	const obj: any = LoadYaml( data );
 	const xml: string = YamlToXml( obj );
 	return xml;
+}
+
+export function Write( fromPath: string, toPath: string = fromPath ): void
+{
+	if( IsDirectory(fromPath) && IsDirectory(toPath) )
+	{
+		const list: string[] = GetDirListing( fromPath );
+		for( const source of list )
+		{
+			if( IsYamlFile(source) )
+			{
+				const data: string = Load( source );
+				const path: string = resolve( toPath, relative(fromPath, Rename(source)) );
+				if( !existsSync(dirname(path)) )
+				{
+					mkdirSync( dirname(path), { recursive: true } );
+				}
+				console.log( `"${source}" => "${path}"` );
+				writeFileSync( path, data, "utf-8" );
+			}
+		}
+	}
+	else if( IsYamlFile(fromPath) )
+	{
+		if( IsDirectory(toPath) )
+		{
+			const fmt: ParsedPath = parse( fromPath );
+			toPath = resolve( toPath, fmt.name + ".xml" );
+		}
+		const data: string = Load( fromPath );
+		console.log( `"${fromPath}" => "${toPath}"` );
+		writeFileSync( toPath, data, "utf-8" );
+	}
+}
+
+export async function Watcher( fromPath: string, toPath: string = fromPath ): Promise<void>
+{
+	const watcher = watch( fromPath, { recursive: true } );
+	for await( const event of watcher )
+	{
+		const realpath: string = resolve( fromPath, event.filename );
+		if( IsYamlFile(realpath) )
+		{
+			const date: Date = new Date();
+			const outPath: string = resolve( toPath, Rename(event.filename) );
+			console.log( "[%d:%d:%d] %s (%s)", date.getHours(), date.getMinutes(), date.getSeconds(), event.filename, event.eventType );
+			Write( realpath, outPath );
+		}
+	}
 }
