@@ -1,3 +1,4 @@
+import console from "node:console";
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { watch } from "node:fs/promises";
 import { ParsedPath, dirname, parse, relative, resolve } from "node:path";

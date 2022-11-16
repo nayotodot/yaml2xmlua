@@ -1,8 +1,9 @@
 {
   "name": "yaml2xmlua",
-  "description": "Yaml to Xml-Lua converter",
   "version": "0.1.2",
+  "description": "Yaml to Xml-Lua converter",
   "main": "dist/main.js",
+  "types": "dist/main.d.ts",
   "bin": {
     "y2xl": "dist/bin.js"
   },
